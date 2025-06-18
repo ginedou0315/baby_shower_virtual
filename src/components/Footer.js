@@ -46,7 +46,8 @@ function Footer() {
             <span className="text-2xl animate-pulse">✨</span>
           </div>
           <p className="text-pink-200">
-            © 2024 Virtual Baby Shower • Made with love for our little princess
+            © 2025 Ginelle Doubek - Virtual Baby Shower • Made with love for our
+            little princess
           </p>
         </div>
       </div>
