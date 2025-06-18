@@ -4,25 +4,25 @@ function PhotoGallery() {
   const photos = [
     {
       id: 1,
-      src: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&h=300&fit=crop",
+      src: "https://i.ibb.co/N2vHfSx7/pexels-becerragoveaphoto-5769090.jpg",
       alt: "Baby shoes",
       caption: "Tiny shoes for tiny feet 👶",
     },
     {
       id: 2,
-      src: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=400&h=300&fit=crop",
+      src: "https://i.ibb.co/dwHFw1sv/Baby-clothes.jpg",
       alt: "Baby clothes",
       caption: "Sweet little outfits 👗",
     },
     {
       id: 3,
-      src: "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=400&h=300&fit=crop",
+      src: "https://i.ibb.co/TqWmccSH/IMG-1044.jpg",
       alt: "Baby toys",
       caption: "Ready to play! 🧸",
     },
     {
       id: 4,
-      src: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
+      src: "https://i.ibb.co/dw3c5ZTy/E8-B0-CAE5-9859-4312-ABB1-AED58071-A3-D5.jpg",
       alt: "Nursery setup",
       caption: "Her special room 🌸",
     },
