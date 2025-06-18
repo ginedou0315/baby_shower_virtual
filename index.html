@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Virtual Baby Shower - Welcome Baby Girl!</title>
+    <meta
+      name="description"
+      content="Join us for a virtual baby shower celebration for our precious baby girl. Share love, wishes, and joy!"
+    />
+    <meta
+      name="keywords"
+      content="baby shower, virtual celebration, baby girl, wishes, gifts"
+    />
+    <meta
+      property="og:title"
+      content="Virtual Baby Shower - Welcome Baby Girl!"
+    />
+    <meta
+      property="og:description"
+      content="Join us for a virtual baby shower celebration for our precious baby girl"
+    />
+    <meta
+      property="twitter:title"
+      content="Virtual Baby Shower - Welcome Baby Girl!"
+    />
+    <meta
+      property="twitter:description"
+      content="Join us for a virtual baby shower celebration for our precious baby girl"
+    />
+
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/react@18/umd/react.production.min.js"></script>
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://resource.trickle.so/vendor_lib/unpkg/lucide@0.513.0/lucide.min.js"></script>
+    <link href="styles.css" rel="stylesheet" />
+    <link href="src/index.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- Mock reportError for compatibility -->
+    <script>
+      window.reportError =
+        window.reportError ||
+        function (error) {
+          console.error("Reported error:", error);
+        };
+    </script>
+
+    <script type="text/babel" src="components/Header.js"></script>
+    <script type="text/babel" src="components/WelcomeSection.js"></script>
+    <script type="text/babel" src="components/WishlistSection.js"></script>
+    <script type="text/babel" src="components/WishesSection.js"></script>
+    <script type="text/babel" src="components/PhotoGallery.js"></script>
+    <script type="text/babel" src="components/Footer.js"></script>
+    <script type="text/babel" src="app.js"></script>
+    <script type="text/babel" src="src/index.js"></script>
+  </body>
+</html>
