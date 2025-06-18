@@ -53,7 +53,7 @@ function WelcomeSection() {
               <div className="space-y-2">
                 <p className="text-gray-700">
                   <span className="font-medium">Virtual Baby Shower:</span> July
-                  13, 2025 at 4:00 PM
+                  13, 2025 at TBA
                 </p>
                 <p className="text-gray-700">
                   <span className="font-medium">Baby Girl's Due Date:</span>{" "}
