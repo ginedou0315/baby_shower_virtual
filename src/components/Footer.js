@@ -19,7 +19,7 @@ function Footer() {
               <span className="text-2xl">📅</span>
             </div>
             <h4 className="font-semibold mb-2">Virtual Shower Date</h4>
-            <p className="text-pink-100">July 13, 2025 at 4:00 PM</p>
+            <p className="text-pink-100">July 13, 2025 at TBA</p>
           </div>
           <div>
             <div className="inline-block bg-white/20 p-3 rounded-full mb-4">
