@@ -22,7 +22,7 @@ function PhotoGallery() {
     },
     {
       id: 4,
-      src: "https://i.ibb.co/0jQsWNxB/IMG-0677.jpg",
+      src: "https://i.ibb.co/bgyfJHbw/wall-room.jpg",
       alt: "Nursery setup",
       caption: "Her special room 🌸",
     },
