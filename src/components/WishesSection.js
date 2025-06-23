@@ -52,7 +52,7 @@ function WishesSection() {
   };
 
   const handleDeleteWish = async (wishId) => {
-    if (!confirm("Are you sure you want to delete this wish?")) return;
+    if (confirm("Are you sure you want to delete this wish?")) return;
 
     // Remove from local state immediately
     setWishes((prev) => prev.filter((wish) => wish.objectId !== wishId));
