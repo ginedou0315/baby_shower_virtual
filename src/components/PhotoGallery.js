@@ -63,7 +63,9 @@ function PhotoGallery() {
 
         <div className="text-center mt-12">
           <div className="inline-block bg-white rounded-full p-6 shadow-lg">
-            <span className="text-6xl text-pink-500">📷</span>
+            <span className="text-6xl text-pink-500">
+              <img src="https://i.ibb.co/Vp90zbVD/IMG-1150.jpg" />
+            </span>
           </div>
           <p className="mt-4 text-gray-600">
             More photos coming soon as we prepare for our little one! 💕

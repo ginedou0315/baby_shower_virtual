@@ -30,24 +30,27 @@ function WishesSection() {
       timestamp: new Date().toISOString(),
     };
 
+    // Create new wish item for immediate display
+    const newWishItem = {
+      objectId: Date.now().toString(),
+      objectData: wishData,
+    };
+
+    // Add to local state immediately
+    setWishes((prev) => [newWishItem, ...prev]);
+    setNewWish("");
+    setGuestName("");
+
+    // Try to save to database in background
     try {
       if (typeof window.trickleCreateObject !== "undefined") {
         await window.trickleCreateObject("baby-wish", wishData);
-        setNewWish("");
-        setGuestName("");
+        // Reload wishes to get server data
         loadWishes();
-      } else {
-        const newWishItem = {
-          objectId: Date.now().toString(),
-          objectData: wishData,
-        };
-        setWishes((prev) => [newWishItem, ...prev]);
-        setNewWish("");
-        setGuestName("");
       }
     } catch (error) {
-      console.error("Failed to save wish:", error);
-      alert("Failed to save your wish. Please try again.");
+      console.error("Failed to save wish to database:", error);
+      // Wish is still shown locally even if database save fails
     }
   };
 
