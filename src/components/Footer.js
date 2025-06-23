@@ -33,7 +33,7 @@ function Footer() {
               <span className="text-2xl">💕</span>
             </div>
             <h4 className="font-semibold mb-2">With Love</h4>
-            <p className="text-pink-100">The Expecting Family</p>
+            <p className="text-pink-100">Petr & Ginelle 💓</p>
           </div>
         </div>
 
