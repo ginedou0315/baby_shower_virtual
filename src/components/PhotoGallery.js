@@ -67,17 +67,17 @@ function PhotoGallery() {
               <img
                 className="col-sm-4"
                 src="https://i.ibb.co/Vp90zbVD/IMG-1150.jpg"
-                alt="crib_photo"
+                alt="crib_photo1"
               />
               <img
                 className="col-sm-4"
                 src="https://i.ibb.co/Vp90zbVD/IMG-1150.jpg"
-                alt="crib_photo"
+                alt="crib_photo2"
               />
               <img
                 className="col-sm-4"
                 src="https://i.ibb.co/Vp90zbVD/IMG-1150.jpg"
-                alt="crib_photo"
+                alt="crib_photo3"
               />
             </div>
           </div>
