@@ -1,15 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import App from "./App";
 
+// Mock reportError and trickle functions for compatibility
 window.reportError =
   window.reportError ||
   function (error) {
     console.error("Reported error:", error);
   };
 
+// Mock trickle functions for demo mode
 window.trickleListObjects =
   window.trickleListObjects ||
   async function () {
@@ -20,6 +21,12 @@ window.trickleCreateObject =
   window.trickleCreateObject ||
   async function () {
     return { objectId: Date.now().toString() };
+  };
+
+window.trickleDeleteObject =
+  window.trickleDeleteObject ||
+  async function () {
+    return Promise.resolve();
   };
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
