@@ -9,34 +9,32 @@ function WishesSection() {
     loadWishes();
   }, []);
 
-  const loadWishes = async () => {
+  const loadWishes = () => {
     try {
-      // Try Trickle database first
-      if (typeof window.trickleListObjects !== "undefined") {
-        const response = await window.trickleListObjects("baby-wish", 50, true);
-        setWishes(response.items || []);
-      } else {
-        // Fallback to localStorage for Netlify
-        const savedWishes = localStorage.getItem("babyShowerWishes");
-        if (savedWishes) {
-          setWishes(JSON.parse(savedWishes));
-        }
-      }
-    } catch (error) {
-      console.error("Failed to load wishes:", error);
-      // Try localStorage as backup
+      // Always load from localStorage first for Netlify
       const savedWishes = localStorage.getItem("babyShowerWishes");
       if (savedWishes) {
-        setWishes(JSON.parse(savedWishes));
+        const parsedWishes = JSON.parse(savedWishes);
+        setWishes(parsedWishes);
+        console.log("Loaded wishes from localStorage:", parsedWishes.length);
+      } else {
+        console.log("No wishes found in localStorage");
       }
+    } catch (error) {
+      console.error("Failed to load wishes from localStorage:", error);
     }
   };
 
   const saveToLocalStorage = (wishesArray) => {
-    localStorage.setItem("babyShowerWishes", JSON.stringify(wishesArray));
+    try {
+      localStorage.setItem("babyShowerWishes", JSON.stringify(wishesArray));
+      console.log("Saved wishes to localStorage:", wishesArray.length);
+    } catch (error) {
+      console.error("Failed to save to localStorage:", error);
+    }
   };
 
-  const handleSubmitWish = async (e) => {
+  const handleSubmitWish = (e) => {
     e.preventDefault();
     if (!newWish.trim() || !guestName.trim()) return;
 
@@ -51,44 +49,24 @@ function WishesSection() {
       objectData: wishData,
     };
 
-    // Add to local state immediately
+    // Add to local state and save immediately
     const updatedWishes = [newWishItem, ...wishes];
     setWishes(updatedWishes);
-    setNewWish("");
-    setGuestName("");
-
-    // Save to localStorage for Netlify
     saveToLocalStorage(updatedWishes);
 
-    // Try to save to Trickle database if available
-    try {
-      if (typeof window.trickleCreateObject !== "undefined") {
-        await window.trickleCreateObject("baby-wish", wishData);
-      }
-    } catch (error) {
-      console.error("Failed to save to database:", error);
-    }
+    // Clear form
+    setNewWish("");
+    setGuestName("");
   };
 
-  const handleDeleteWish = async (wishId) => {
+  const handleDeleteWish = (wishId) => {
     // eslint-disable-next-line no-restricted-globals
     if (!confirm("Are you sure you want to delete this wish?")) return;
 
-    // Remove from local state
+    // Remove from local state and save
     const updatedWishes = wishes.filter((wish) => wish.objectId !== wishId);
     setWishes(updatedWishes);
-
-    // Update localStorage
     saveToLocalStorage(updatedWishes);
-
-    // Try to delete from Trickle database if available
-    try {
-      if (typeof window.trickleDeleteObject !== "undefined") {
-        await window.trickleDeleteObject("baby-wish", wishId);
-      }
-    } catch (error) {
-      console.error("Failed to delete from database:", error);
-    }
   };
 
   return (
