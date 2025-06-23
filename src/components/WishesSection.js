@@ -11,13 +11,29 @@ function WishesSection() {
 
   const loadWishes = async () => {
     try {
+      // Try Trickle database first
       if (typeof window.trickleListObjects !== "undefined") {
         const response = await window.trickleListObjects("baby-wish", 50, true);
         setWishes(response.items || []);
+      } else {
+        // Fallback to localStorage for Netlify
+        const savedWishes = localStorage.getItem("babyShowerWishes");
+        if (savedWishes) {
+          setWishes(JSON.parse(savedWishes));
+        }
       }
     } catch (error) {
       console.error("Failed to load wishes:", error);
+      // Try localStorage as backup
+      const savedWishes = localStorage.getItem("babyShowerWishes");
+      if (savedWishes) {
+        setWishes(JSON.parse(savedWishes));
+      }
     }
+  };
+
+  const saveToLocalStorage = (wishesArray) => {
+    localStorage.setItem("babyShowerWishes", JSON.stringify(wishesArray));
   };
 
   const handleSubmitWish = async (e) => {
@@ -35,19 +51,22 @@ function WishesSection() {
       objectData: wishData,
     };
 
-    // Add to local state immediately for instant display
-    setWishes((prev) => [newWishItem, ...prev]);
+    // Add to local state immediately
+    const updatedWishes = [newWishItem, ...wishes];
+    setWishes(updatedWishes);
     setNewWish("");
     setGuestName("");
 
-    // Save to database in background
+    // Save to localStorage for Netlify
+    saveToLocalStorage(updatedWishes);
+
+    // Try to save to Trickle database if available
     try {
       if (typeof window.trickleCreateObject !== "undefined") {
         await window.trickleCreateObject("baby-wish", wishData);
-        loadWishes();
       }
     } catch (error) {
-      console.error("Failed to save wish:", error);
+      console.error("Failed to save to database:", error);
     }
   };
 
@@ -55,17 +74,20 @@ function WishesSection() {
     // eslint-disable-next-line no-restricted-globals
     if (!confirm("Are you sure you want to delete this wish?")) return;
 
-    // Remove from local state immediately
-    setWishes((prev) => prev.filter((wish) => wish.objectId !== wishId));
+    // Remove from local state
+    const updatedWishes = wishes.filter((wish) => wish.objectId !== wishId);
+    setWishes(updatedWishes);
 
-    // Delete from database in background
+    // Update localStorage
+    saveToLocalStorage(updatedWishes);
+
+    // Try to delete from Trickle database if available
     try {
       if (typeof window.trickleDeleteObject !== "undefined") {
         await window.trickleDeleteObject("baby-wish", wishId);
       }
     } catch (error) {
-      console.error("Failed to delete wish:", error);
-      loadWishes();
+      console.error("Failed to delete from database:", error);
     }
   };
 
