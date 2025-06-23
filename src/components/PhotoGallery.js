@@ -66,8 +66,8 @@ function PhotoGallery() {
             <div className="row text-6xl text-pink-500">
               <img
                 className="col-sm-4"
-                src="https://i.ibb.co/Vp90zbVD/IMG-1150.jpg"
-                alt="crib_photo1"
+                src="https://i.ibb.co/cS4sv3GH/Nursery-Room.jpg"
+                alt="nursery_photo1"
               />
               <img
                 className="col-sm-4"
@@ -76,7 +76,7 @@ function PhotoGallery() {
               />
               <img
                 className="col-sm-4"
-                src="https://i.ibb.co/Vp90zbVD/IMG-1150.jpg"
+                src="https://i.ibb.co/Xrw3P70P/babycrib2.jpg"
                 alt="crib_photo3"
               />
             </div>
