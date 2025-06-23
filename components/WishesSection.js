@@ -30,27 +30,41 @@ function WishesSection() {
         timestamp: new Date().toISOString(),
       };
 
-      // Create new wish item for immediate display
       const newWishItem = {
         objectId: Date.now().toString(),
         objectData: wishData,
       };
 
-      // Add to local state immediately
+      // Add to local state immediately for instant display
       setWishes((prev) => [newWishItem, ...prev]);
       setNewWish("");
       setGuestName("");
 
-      // Try to save to database in background
+      // Save to database in background
       try {
         if (typeof trickleCreateObject !== "undefined") {
           await trickleCreateObject("baby-wish", wishData);
-          // Reload wishes to get server data
           loadWishes();
         }
       } catch (error) {
-        console.error("Failed to save wish to database:", error);
-        // Wish is still shown locally even if database save fails
+        console.error("Failed to save wish:", error);
+      }
+    };
+
+    const handleDeleteWish = async (wishId) => {
+      if (!confirm("Are you sure you want to delete this wish?")) return;
+
+      // Remove from local state immediately
+      setWishes((prev) => prev.filter((wish) => wish.objectId !== wishId));
+
+      // Delete from database in background
+      try {
+        if (typeof trickleDeleteObject !== "undefined") {
+          await trickleDeleteObject("baby-wish", wishId);
+        }
+      } catch (error) {
+        console.error("Failed to delete wish:", error);
+        loadWishes();
       }
     };
 
@@ -101,9 +115,16 @@ function WishesSection() {
                 {wishes.map((wish) => (
                   <div
                     key={wish.objectId}
-                    className="bg-pink-50 p-6 rounded-xl"
+                    className="bg-pink-50 p-6 rounded-xl relative group"
                   >
-                    <p className="text-gray-700 mb-3 italic">
+                    <button
+                      onClick={() => handleDeleteWish(wish.objectId)}
+                      className="absolute top-4 right-4 text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity"
+                      title="Delete wish"
+                    >
+                      <i data-lucide="trash-2" className="w-4 h-4"></i>
+                    </button>
+                    <p className="text-gray-700 mb-3 italic pr-8">
                       "{wish.objectData.message}"
                     </p>
                     <div className="flex justify-between items-center text-sm">
