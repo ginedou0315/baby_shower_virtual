@@ -4,7 +4,6 @@ function WishesSection() {
   const [wishes, setWishes] = useState([]);
   const [newWish, setNewWish] = useState("");
   const [guestName, setGuestName] = useState("");
-  const [debugInfo, setDebugInfo] = useState("");
 
   useEffect(() => {
     loadWishes();
@@ -23,17 +22,15 @@ function WishesSection() {
         const parsedWishes = JSON.parse(savedWishes);
         if (Array.isArray(parsedWishes) && parsedWishes.length > 0) {
           setWishes(parsedWishes);
-          setDebugInfo(`Loaded ${parsedWishes.length} wishes from storage`);
-          console.log("Successfully loaded wishes:", parsedWishes);
+          console.log("Successfully loaded wishes:", parsedWishes.length);
         } else {
-          setDebugInfo("No valid wishes found in storage");
+          console.log("No valid wishes found in storage");
         }
       } else {
-        setDebugInfo("No wishes found in localStorage");
+        console.log("No wishes found in localStorage");
       }
     } catch (error) {
       console.error("Error loading wishes:", error);
-      setDebugInfo("Error loading wishes: " + error.message);
     }
   };
 
@@ -41,15 +38,13 @@ function WishesSection() {
     try {
       const dataToSave = JSON.stringify(wishesArray);
       localStorage.setItem("babyShowerWishes", dataToSave);
-      console.log("Saved to localStorage:", dataToSave);
-      setDebugInfo(`Saved ${wishesArray.length} wishes to storage`);
+      console.log("Saved wishes to localStorage:", wishesArray.length);
 
       // Verify save worked
       const verification = localStorage.getItem("babyShowerWishes");
-      console.log("Verification read:", verification);
+      console.log("Verification successful:", verification ? "Yes" : "No");
     } catch (error) {
       console.error("Error saving wishes:", error);
-      setDebugInfo("Error saving: " + error.message);
     }
   };
 
@@ -83,15 +78,6 @@ function WishesSection() {
     saveWishes(updatedWishes);
   };
 
-  const clearAllWishes = () => {
-    // eslint-disable-next-line no-restricted-globals
-    if (!confirm("Clear all wishes? This cannot be undone!")) return;
-
-    localStorage.removeItem("babyShowerWishes");
-    setWishes([]);
-    setDebugInfo("All wishes cleared");
-  };
-
   return (
     <section className="py-16 px-6">
       <div className="container mx-auto max-w-4xl">
@@ -102,17 +88,6 @@ function WishesSection() {
           <p className="text-lg text-gray-700">
             Share your love, advice, and warm wishes for our little princess!
           </p>
-        </div>
-
-        {/* Debug Info */}
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4 text-sm">
-          <strong>Debug:</strong> {debugInfo}
-          <button
-            onClick={clearAllWishes}
-            className="ml-4 text-red-600 hover:text-red-800 text-xs underline"
-          >
-            Clear All
-          </button>
         </div>
 
         <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 mb-8">
