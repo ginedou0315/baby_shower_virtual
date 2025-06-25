@@ -4,6 +4,7 @@ function WishesSection() {
   const [wishes, setWishes] = useState([]);
   const [newWish, setNewWish] = useState("");
   const [guestName, setGuestName] = useState("");
+  const [debugInfo, setDebugInfo] = useState("");
 
   useEffect(() => {
     loadWishes();
@@ -11,26 +12,44 @@ function WishesSection() {
 
   const loadWishes = () => {
     try {
-      // Always load from localStorage first for Netlify
       const savedWishes = localStorage.getItem("babyShowerWishes");
-      if (savedWishes) {
+      console.log("Raw localStorage data:", savedWishes);
+
+      if (
+        savedWishes &&
+        savedWishes !== "null" &&
+        savedWishes !== "undefined"
+      ) {
         const parsedWishes = JSON.parse(savedWishes);
-        setWishes(parsedWishes);
-        console.log("Loaded wishes from localStorage:", parsedWishes.length);
+        if (Array.isArray(parsedWishes) && parsedWishes.length > 0) {
+          setWishes(parsedWishes);
+          setDebugInfo(`Loaded ${parsedWishes.length} wishes from storage`);
+          console.log("Successfully loaded wishes:", parsedWishes);
+        } else {
+          setDebugInfo("No valid wishes found in storage");
+        }
       } else {
-        console.log("No wishes found in localStorage");
+        setDebugInfo("No wishes found in localStorage");
       }
     } catch (error) {
-      console.error("Failed to load wishes from localStorage:", error);
+      console.error("Error loading wishes:", error);
+      setDebugInfo("Error loading wishes: " + error.message);
     }
   };
 
-  const saveToLocalStorage = (wishesArray) => {
+  const saveWishes = (wishesArray) => {
     try {
-      localStorage.setItem("babyShowerWishes", JSON.stringify(wishesArray));
-      console.log("Saved wishes to localStorage:", wishesArray.length);
+      const dataToSave = JSON.stringify(wishesArray);
+      localStorage.setItem("babyShowerWishes", dataToSave);
+      console.log("Saved to localStorage:", dataToSave);
+      setDebugInfo(`Saved ${wishesArray.length} wishes to storage`);
+
+      // Verify save worked
+      const verification = localStorage.getItem("babyShowerWishes");
+      console.log("Verification read:", verification);
     } catch (error) {
-      console.error("Failed to save to localStorage:", error);
+      console.error("Error saving wishes:", error);
+      setDebugInfo("Error saving: " + error.message);
     }
   };
 
@@ -38,23 +57,19 @@ function WishesSection() {
     e.preventDefault();
     if (!newWish.trim() || !guestName.trim()) return;
 
-    const wishData = {
-      message: newWish.trim(),
-      guestName: guestName.trim(),
-      timestamp: new Date().toISOString(),
-    };
-
     const newWishItem = {
-      objectId: Date.now().toString(),
-      objectData: wishData,
+      objectId: `wish_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      objectData: {
+        message: newWish.trim(),
+        guestName: guestName.trim(),
+        timestamp: new Date().toISOString(),
+      },
     };
 
-    // Add to local state and save immediately
     const updatedWishes = [newWishItem, ...wishes];
     setWishes(updatedWishes);
-    saveToLocalStorage(updatedWishes);
+    saveWishes(updatedWishes);
 
-    // Clear form
     setNewWish("");
     setGuestName("");
   };
@@ -63,10 +78,18 @@ function WishesSection() {
     // eslint-disable-next-line no-restricted-globals
     if (!confirm("Are you sure you want to delete this wish?")) return;
 
-    // Remove from local state and save
     const updatedWishes = wishes.filter((wish) => wish.objectId !== wishId);
     setWishes(updatedWishes);
-    saveToLocalStorage(updatedWishes);
+    saveWishes(updatedWishes);
+  };
+
+  const clearAllWishes = () => {
+    // eslint-disable-next-line no-restricted-globals
+    if (!confirm("Clear all wishes? This cannot be undone!")) return;
+
+    localStorage.removeItem("babyShowerWishes");
+    setWishes([]);
+    setDebugInfo("All wishes cleared");
   };
 
   return (
@@ -79,6 +102,17 @@ function WishesSection() {
           <p className="text-lg text-gray-700">
             Share your love, advice, and warm wishes for our little princess!
           </p>
+        </div>
+
+        {/* Debug Info */}
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4 text-sm">
+          <strong>Debug:</strong> {debugInfo}
+          <button
+            onClick={clearAllWishes}
+            className="ml-4 text-red-600 hover:text-red-800 text-xs underline"
+          >
+            Clear All
+          </button>
         </div>
 
         <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 mb-8">
